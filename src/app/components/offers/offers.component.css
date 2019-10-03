@@ -1,5 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
-#books {
+/*#books {
   border-radius: 0.25rem;
   background: #f9f9f9 !important;
 }
@@ -26,6 +25,7 @@ h4.card-title {
   min-height: 96px !important;
 }
 
+
 .card-title {
   color: #007bff;
   cursor: pointer;
@@ -40,9 +40,4 @@ h4.card-title {
 div.container-precio-idioma{
   display: flex;
   justify-content: space-between;
-}
-
-
-
-
-
+}*/

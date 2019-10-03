@@ -1,0 +1,130 @@
+<div class="modal fade" id="modalBook" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" (click)="onClick($event)">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{!this.dataApi.selectedBook.id ? 'New Book' : 'Update Book'}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cerrar()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #formBook="ngForm" (ngSubmit)="onSaveBook(formBook)">
+
+          <input type="hidden" name="id" [(ngModel)]="this.dataApi.selectedBook.id">
+          <input type="hidden" name="userUid" [value]="userUid">
+          <input *ngIf="this.dataApi.modoPortada == '0'" type="hidden" name="portada" [(ngModel)]="this.dataApi.selectedBook.portada">
+          <input #imageBook type="hidden" [value]="urlImage | async">
+          
+
+          <div class="form-group">
+            <label for="titulo" class="col-form-label">Titulo:</label>
+            <input type="text" class="form-control" name="titulo" [(ngModel)]="this.dataApi.selectedBook.titulo">
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="idioma">Idioma</label>
+              <select name="idioma" class="form-control" [(ngModel)]="this.dataApi.selectedBook.idioma">
+                <option value="Inglés">Inglés</option>
+                <option value="Catellano">Castellano</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="precio">Precio</label>
+              <input type="text" name="precio" class="form-control" placeholder="0,00$" [(ngModel)]="this.dataApi.selectedBook.precio">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="autor">Autor</label>
+              <input type="text" name="autor" class="form-control" [(ngModel)]="this.dataApi.selectedBook.autor">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="oferta">Oferta</label>
+              <select name="oferta" class="form-control" [(ngModel)]="this.dataApi.selectedBook.oferta">
+                <option value="1">SI</option>
+                <option value="0">NO</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="link_amazon">Link Amazon</label>
+              <input type="text" name="link_amazon" class="form-control" placeholder="Link Amazon" [(ngModel)]="this.dataApi.selectedBook.link_amazon"> 
+            </div>
+            <div class="form-group col-md-6">
+              <label for="modoPortada">Portada</label>
+              <select name="modoPortada" class="form-control" (change)="changePortada($event)" [(ngModel)]="this.dataApi.modoPortada">
+                <option value="1">Usar link</option>
+                <option value="0">Desde el equipo</option>
+              </select>
+            </div>
+          </div>
+          <!-- ----------------------------- PORTADA ----------------- -->
+            <div class="form-row" *ngIf="this.dataApi.modoPortada == '1'; else subirPortada">
+              <div class="form-group col-md-12">
+                <!-- <label for="link_amazon">Link Portada</label> -->
+                <input type="text" name="portada" class="form-control" placeholder="link portada" [(ngModel)]="this.dataApi.selectedBook.portada">
+              </div>
+            </div>
+
+            <ng-template #subirPortada>
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <!-- <div *ngIf="this.dataApi.selectedBook.id; else urlimage">
+                  <img src="{{this.dataApi.selectedBook.portada}}" alt="" class="imp-thumbnail">
+                </div> -->
+
+              <!-- <ng-template #urlimage> -->
+                <img src="{{urlImage | async}}" class="imp-thumbnail" alt="">
+              <!-- </ng-template> -->
+              </div>
+
+
+              <div class="form-group col-md-6">
+                <!-- <label for="portada">Portada</label> -->
+                <div class="custom-file">
+                      <input type="file" accept=".png, .jpg" class="custom-file-input" id="seleccionArchivos" aria-describedby="inputGroupFileAddon01" (change)="onUpload($event)">
+                      <label class="custom-file-label" for="inputGroupFile01">
+                      Choose file
+                    </label>
+                </div>
+
+                <div class="progress mt-1">
+                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" [style.width]="(uploadPercent | async ) + '%'">
+                    </div>
+                </div>
+
+              </div>
+
+          </div>
+              
+            </ng-template>
+
+          <!-- -------------------------------- -->
+
+
+          <!-- -------------------- FIN PORTADA --------------------------------- -->
+
+          
+
+          <div class="form-group">
+            <label for="descripcion" class="col-form-label">Descripción:</label>
+            <textarea class="form-control" name="descripcion" [(ngModel)]="this.dataApi.selectedBook.descripcion"></textarea>
+         </div>
+
+         <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" #btnClose (click)="cerrar()">
+          Close
+        </button>
+        <button type="submit" class="btn btn-primary">
+          Save Book
+        </button>
+        </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</div>
